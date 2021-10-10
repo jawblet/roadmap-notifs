@@ -1,0 +1,11 @@
+.tabs {
+    padding: 1rem 0;
+}
+
+.tab {
+    cursor: pointer;
+    &_active {
+        text-decoration: underline;
+        font-weight: 600;
+    }
+}

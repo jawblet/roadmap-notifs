@@ -87,7 +87,7 @@ const Flex = (props) => {
     return (
         <div style={getFlex(props)}
             className={props.className}
-            data-id={props.id}
+            id={props.id}
             onClick={props.handleClick}>
             {props.children}
         </div>

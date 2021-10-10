@@ -12,3 +12,11 @@ export const getFeatures = async () => {
     const res = await axios.get('/api/features', {params: {hasDate: true}});
     return res.data;
 }
+
+export const getInitFeatures = async () => {
+    await axios.get('/api/features', {params: {hasDate: true}})
+        .then(res => {
+            console.log(res)
+            return res.features })
+        .catch(err => console.log(err));
+}

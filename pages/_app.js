@@ -23,7 +23,8 @@ const Auth = ({ children }) => {
   
   if(status==="loading") return <Loading/>
 
-  if(status==="unauthenticated") return (<div>
+  if(status==="unauthenticated") return (
+  <div>
   <button onClick={() => signIn("google", { callbackUrl: process.env.NEXTAUTH_URL })}>
     Sign in with google
   </button>

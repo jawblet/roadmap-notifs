@@ -2,22 +2,21 @@ import { useState } from 'react';
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 import { useQuery } from 'react-query';
-import { getFeatures } from '../utils/api';
+import { getFeatures, getInitFeatures } from '../utils/api';
 import Loading from '../components/Loading';
 import Dashboard from '../components/dashboard/Dashboard';
-import Flex from "@utils/Flex";
-import { useRouter } from 'next/router';
 import Notifications from '../components/dashboard/Notifications';
+import Tabs from '../components/Tabs';
+import axios from "axios";
 
-export default function Home() {
-  let router = useRouter();
+export default function Home(pageProps) {
+  console.log(pageProps);
+
   const {isLoading, error, data } = useQuery('getFeatures', () => getFeatures());
 
   const [view, setView] = useState("upcoming");
 
   if(isLoading || error) return <Loading/>
-
-  console.log(process.env.NODE_ENV);
 
   return (
     <div className={styles.container}>
@@ -27,31 +26,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h2>Piano roadmap notifier</h2>
-        <Flex gap={3}>
-              <h3 onClick={() => {
-                router.push('#upcoming');
-                setView("upcoming");
-              }}>
-                Upcoming features
-            </h3>
-            <h3 onClick={() => {
-                router.push('#other');
-                setView("other");
-              }}>
-                Other roadmap features
-                </h3>
-              <h3 onClick={() => {
-                router.push('#notifications');
-                setView("notifications");
-              }}>My notifications</h3>
-        </Flex>
+       <Tabs view={view} setView={setView}/>
+       <hr/>
         {(function() {
         switch (view) {
           case 'upcoming':
             return  <Dashboard data={data.features}/>;
-          case 'warning':
+          case 'other':
             return  <Dashboard data={data.features}/>;
-          case 'error':
+          case 'notifications':
             return  <Notifications/>;
           default:
             return null;
@@ -62,11 +45,13 @@ export default function Home() {
   )
 }
 
-/**
- * 
-  * Notif types:
-  *  Date changed
-  *  Phase changed 
-  * Subscribe 
-  * Unsubscribe
- */
+/*
+export async function getStaticProps(context) {
+ const data = await getInitFeatures();
+ console.log(data);
+
+  return {
+    props: { data }, // will be passed to the page component as props
+  }
+}
+*/

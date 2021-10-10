@@ -20,7 +20,6 @@ const Dashboard = ({ data }) => {
                 <h5 style={{width:"10%"}}>watch?</h5>
             </Flex>
             {Object.entries(data).map(([key, vals], i) => {
-                console.log(colors[key]);
                 return(
                 <Flex key={i} className={styles.domain} gap={3}>
                     <h4 style={{width:"25%", background:colors[key]}} className="inlinetag">

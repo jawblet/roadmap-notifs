@@ -9,7 +9,7 @@ const Feature = ({ feature, userFeatures }) => {
     const { editSubscriptions } = useSubscriptions();
 
     return (
-        <Flex key={feature._id} gap={1.5} between className={styles.feature}>
+        <Flex key={feature._id} gap={1.5} between className={styles.feature} id={feature._id}>
             <p style={{width:"60%"}}>{feature.name}</p>
             <p style={{width:"5%"}}>{date}</p>
             <input type="checkbox" style={{width:"10%"}}
