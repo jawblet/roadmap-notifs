@@ -4,6 +4,7 @@ import Flex from '@utils/Flex';
 import styles from "@styles/Dashboard.module.scss";
 import Loading from '../Loading';
 import Feature from './Feature';
+import { colors } from '../../utils/colors';
 
 const Dashboard = ({ data }) => {
     const { user } = useContext(UserContext);
@@ -19,9 +20,10 @@ const Dashboard = ({ data }) => {
                 <h5 style={{width:"10%"}}>watch?</h5>
             </Flex>
             {Object.entries(data).map(([key, vals], i) => {
+                console.log(colors[key]);
                 return(
                 <Flex key={i} className={styles.domain} gap={3}>
-                    <h4 style={{width:"25%"}}>
+                    <h4 style={{width:"25%", background:colors[key]}} className="inlinetag">
                         {key}
                     </h4>
                     <div style={{width:"100%"}}>

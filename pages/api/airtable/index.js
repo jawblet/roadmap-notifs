@@ -10,7 +10,6 @@ export default async function handler(req, res) {
         const data = [];
         
         await base('Product DB').select({
-            // Selecting the first 3 records in Upcoming Releases (DO NOT EDIT):
             view: "Full view by Product domain",
             filterByFormula: "NOT({Phase} = 'Backlog')"
         }).eachPage(function page(records, fetchNextPage) {        
@@ -34,6 +33,7 @@ export default async function handler(req, res) {
             }
         })
 
+
         await Feature.insertMany(features);
 
         return res.status(201).json({ features })
@@ -42,15 +42,3 @@ export default async function handler(req, res) {
         res.status(400).json(err)
     }
   }
-
-  /**
-   * 
-   * 
-new Airtable({ 
-    apiKey: process.env.AIRTABLE_API_KEY })
-
-    const data = await axios.get(process.env.AIRTABLE_ENDPOINT,
-          {headers: {'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`}})
-        .then(res => {return {length: res.data.records.length, data: res.data}})
-        .catch(err => console.log(err))
-   */
