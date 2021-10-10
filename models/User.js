@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema; 
-import { Feature } from '@models/Feature';
 
 const userSchema = new Schema({
     email: String, 

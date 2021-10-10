@@ -1,8 +1,5 @@
-import axios from "axios";
-import Cors from "cors";
 const airtable = require("airtable");
 import Feature from "../../../models/Feature";
-import mongoose from "mongoose";
 import dbConnect from "../../../utils/dbConnect";
 
 dbConnect();

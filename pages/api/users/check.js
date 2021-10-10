@@ -1,11 +1,10 @@
 import User from "@models/User";
-import Feature from "@models/Feature";
 import dbConnect from "@utils/dbConnect";
 import { getSession } from "next-auth/react";
 
 dbConnect();
 
-export default async handler(req, res){
+export default async function handler(req, res){
   const { email } = req.query;
   const session = await getSession({ req });
 
