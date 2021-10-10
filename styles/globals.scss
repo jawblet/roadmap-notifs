@@ -1,0 +1,187 @@
+/** ELEMENTS */
+*,
+*::after,
+*::before{
+      margin: 0;
+      padding: 0;
+      border: 0;
+      box-sizing: inherit; 
+      font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxyge
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  }
+
+ul, ol > * {
+  margin-left: 1.5rem;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 90%;
+    width: 100%;
+    color: $body;
+    background: $off-white;
+  }
+
+//highlight 
+::selection {
+    background-color: $accent;
+  }
+
+blockquote {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 40px;
+  margin-inline-end: 40px;
+}
+
+body {
+ // font-family: 'Graphik', sans-serif;
+  font-size: 0.9rem;
+  line-height: normal;
+}
+
+.headline {
+  font-size: 3.3rem;
+}
+
+/* text styles */
+h1 { // group heading
+  font-size: 2rem;
+  font-weight: 200;
+  letter-spacing: 0.5px;
+  line-height: 200%;
+
+}
+
+h2, .title { //room heading
+  // font-family: 'Apple-Garamond', serif;
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+h3 { // post heading
+  // font-family: 'Graphik', sans-serif; 
+  font-size: 0.8rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+h4, button, li, th, .listtext { // lists, menus, buttons
+    // font-family: 'Graphik', sans-serif; 
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    font-weight: 400;
+    &.heavy {
+      font-weight: bold;
+    }
+  }
+
+h5, figcaption, label, td, .subtitle { // prompts, nudges, captions
+ // font-family: 'Graphik', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+h6 { //metadata 
+  font-size: .7rem;
+  letter-spacing: 1px;
+}
+
+.public-DraftEditor-content, p {
+  line-height: 180%;
+}
+
+code, pre {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+a { 
+  text-decoration: none;
+  color: $body-light;
+  cursor: pointer;
+  &:hover {
+    font-style: italic;
+  }
+} 
+
+.link {
+  cursor: pointer;
+  &:hover {
+    font-style: italic;
+  }
+}
+
+//remove and change default styling
+input, textarea {
+  font-family: 'Graphik', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  color: $body;
+    &:focus{
+      outline: none;
+      border: none;
+    }
+  }
+
+button {
+    background: none;
+    border: none;
+    padding: none;
+    cursor: pointer;
+    &:focus{
+      outline: none;
+    }
+  }
+
+textarea {
+    resize: none; //disable user resizing
+  }
+
+menu {
+    list-style: none;
+}
+
+hr {
+    clear:both;
+    display:block;
+    background: $body-lightest;
+    opacity: .5;
+    height: 1px; 
+    width: 100%; 
+    margin: 0 auto; //center
+}
+ 
+ul {
+  list-style: '- ';
+}
+
+ul > li > ul {
+  list-style: circle;
+}
+
+ol > li > ol {
+  list-style: lower-alpha;
+}
+
+.inlinetag {
+  border-radius: 3px;
+  padding: 0 1px;
+}
+
+.icon {
+  font-size:1.3rem;
+  cursor: pointer;
+}
+
+.container {
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
