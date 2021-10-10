@@ -13,7 +13,7 @@ export default async function handler(req, res) {
 
             features = groupBy(features, "product_domain");
 
-            res.status(200).json({length, features});
+            res.status(200).json({length, features, groups: Object.keys(features)});
         } catch(err) {
             res.status(400).json(err);
         }

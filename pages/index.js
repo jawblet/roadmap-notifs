@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 import { useQuery } from 'react-query';
@@ -5,12 +6,18 @@ import { getFeatures } from '../utils/api';
 import Loading from '../components/Loading';
 import Dashboard from '../components/dashboard/Dashboard';
 import Flex from "@utils/Flex";
-import Link from "next/link";
+import { useRouter } from 'next/router';
+import Notifications from '../components/dashboard/Notifications';
 
 export default function Home() {
+  let router = useRouter();
   const {isLoading, error, data } = useQuery('getFeatures', () => getFeatures());
 
+  const [view, setView] = useState("upcoming");
+
   if(isLoading || error) return <Loading/>
+
+  console.log(process.env.NODE_ENV);
 
   return (
     <div className={styles.container}>
@@ -21,20 +28,45 @@ export default function Home() {
       </Head>
       <h2>Piano roadmap notifier</h2>
         <Flex gap={3}>
-            <h3>Upcoming features</h3>
-            <h3>Other roadmap features</h3>
-            <Link href="Watching" as="watching">
-              <h3>My watched items</h3>
-            </Link>
+              <h3 onClick={() => {
+                router.push('#upcoming');
+                setView("upcoming");
+              }}>
+                Upcoming features
+            </h3>
+            <h3 onClick={() => {
+                router.push('#other');
+                setView("other");
+              }}>
+                Other roadmap features
+                </h3>
+              <h3 onClick={() => {
+                router.push('#notifications');
+                setView("notifications");
+              }}>My notifications</h3>
         </Flex>
-        <Dashboard data={data.features}/>
+        {(function() {
+        switch (view) {
+          case 'upcoming':
+            return  <Dashboard data={data.features}/>;
+          case 'warning':
+            return  <Dashboard data={data.features}/>;
+          case 'error':
+            return  <Notifications/>;
+          default:
+            return null;
+        }
+      })()}
+       
     </div>
   )
 }
 
 /**
  * 
- * Notif types:
- *  Date changed
- *  Phase changed 
+  * Notif types:
+  *  Date changed
+  *  Phase changed 
+  * Subscribe 
+  * Unsubscribe
  */

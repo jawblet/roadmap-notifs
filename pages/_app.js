@@ -32,8 +32,10 @@ const Auth = ({ children }) => {
 
   return (
   <UserContext.Provider value={{user, setUser}}>
-      <Header/>
-      {children}
+        {user && <>
+        <Header/>
+        {children} 
+        </> }
     </UserContext.Provider>
     )
 }

@@ -8,6 +8,7 @@ export default function useSubscriptions() {
     const queryClient = useQueryClient();
 
     const sendEmail = useMutation(payload => { return axios.post('/api/notifs/email', payload)});
+    const sendNotif = useMutation(payload => { return axios.post('/api/notifs/notification', payload)});
 
     const editWatched = useMutation(payload => { return axios.put(`/api/users/${user._id}`, payload) }, {
         onSuccess: (res, payload) => {  
