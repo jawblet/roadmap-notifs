@@ -4,12 +4,12 @@ import Loading from "@components/Loading";
 import Feature from '../components/dashboard/Feature';
 import useSubscriptions from '../hooks/useSubscriptions';
 
-const watching = () => {
+const Watching = (props) => {
     const { user } = useContext(UserContext);
     const { editWatched } = useSubscriptions();
 
     if(!user) return <Loading/>
-
+    console.log(props);
     return (
         <div>
             {!user.features 
@@ -29,4 +29,4 @@ const watching = () => {
     );
 };
 
-export default watching;
+export default Watching;

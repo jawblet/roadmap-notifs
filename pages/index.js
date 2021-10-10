@@ -24,7 +24,7 @@ export default function Home() {
         <Flex gap={3}>
             <h3>Upcoming features</h3>
             <h3>Other roadmap features</h3>
-            <Link href="/watching">
+            <Link href="Watching" as="watching">
               <h3>My watched items</h3>
             </Link>
         </Flex>

@@ -17,7 +17,6 @@ const Auth = ({ children }) => {
   useQuery('getUser', () => checkUser(), {
     enabled: !!(status==="authenticated"),
     onSuccess: (res) => {
-      console.log(res);
       setUser(res);
     }
   });

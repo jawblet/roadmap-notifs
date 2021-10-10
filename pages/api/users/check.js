@@ -5,7 +5,7 @@ import { getSession } from "next-auth/react";
 
 dbConnect();
 
-export default async (req, res) => {
+export default async handler(req, res){
   const { email } = req.query;
   const session = await getSession({ req });
 
