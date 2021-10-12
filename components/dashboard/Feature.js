@@ -12,7 +12,9 @@ const Feature = ({ feature, userFeatures }) => {
         <Flex className={styles.dashboard_feature}>
             <Flex middle gap={0.5} className={styles.dashboard_data}>
                 <p>{feature.name}</p>
-                <a href={`${process.env.NEXT_PUBLIC_PROD_DB_URL}${feature.id}`} target="_blank">
+                <a href={`${process.env.NEXT_PUBLIC_PROD_DB_URL}${feature.id}`} 
+                    rel="noreferrer"
+                    target="_blank">
                     <VscLinkExternal className="icon"/>
                 </a>
             </Flex>
