@@ -80,7 +80,7 @@ const Flex = (props) => {
           width: props.width,
           height: props.height,
           gap: `${gap}rem`,
-          position: 'relative'
+          style: props.style
       }
     }
 

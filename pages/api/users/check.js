@@ -1,4 +1,5 @@
 import User from "@models/User";
+import Feature from "@models/Feature";
 import dbConnect from "@utils/dbConnect";
 import { getSession } from "next-auth/react";
 

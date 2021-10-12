@@ -14,6 +14,7 @@ export const getFeatures = async () => {
 }
 
 export const getNotifs = async (user) => {
+    console.log("notifs refetched")
    const res = await axios.get(`/api/notifs/${user}`);
    return res.data;
 }

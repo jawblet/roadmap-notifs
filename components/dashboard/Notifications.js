@@ -1,10 +1,11 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styles from "@styles/Notification.module.scss";
 import useNotifications  from '@hooks/useNotifications';
 import { useQuery } from 'react-query';
 import { getNotifs } from '@utils/api';
 import Loading from "@components/Loading";
 import { UserContext } from "@utils/UserContext";
+import useTimeout from '@hooks/useTimeout';
 
 const Notification = ({ el }) => {
     const createdAt = new Date(el.createdAt).toLocaleString().replaceAll('/', '-');
@@ -18,42 +19,54 @@ const Notification = ({ el }) => {
 }
 
 const NotificationsList = ({ read = [], unread = [] }) => {
+    const [hasTimeElapsed, setHasTimeElapsed] = React.useState(false);
     const { updateNotifs } = useNotifications();
 
-    useEffect(() => {
-        updateNotifs.mutate();
-    }, []);
+    useTimeout(() => {
+        setHasTimeElapsed(true);
+      }, 1500);
+
+      useEffect(() => {
+        hasTimeElapsed && updateNotifs.mutate();
+    }, [hasTimeElapsed]);
 
     return( <div>
         <div>
-            {!unread.length 
-            ? <h3 style={{textAlign:"center"}}> No unread notifications </h3> 
-            : unread.map(el => {
+            {unread && unread.map(el => {
                 return <Notification key={el._id} el={el}/>
             })}
         </div>
-        {read.map(el => {
-                return <Notification key={el._id} el={el}/>
-            })}
+            {read && read.map(el => {
+                    return <Notification key={el._id} el={el}/>
+                })}
         </div>
     )
 }
 
+/* 
+*/
 
-const Notifications = () => {
+const Notifications = ({ notifs }) => {
     const { user } = useContext(UserContext); 
-    const { isLoading, error, data } = useQuery('getNotifs', () => getNotifs(user._id));
+    const [data, setData] = useState(null);
+    //const { isLoading, error, data } = useQuery('getNotifs', () => getNotifs(user._id));
 
-    if(isLoading) return <Loading/>
-    if(error) return <h1>oh no...error</h1>
+    useEffect(() => {
+        if(notifs.data) {
+            setData(notifs.data)
+        }
+    }, [notifs])
 
-    if(!data) {
+    if(notifs.isLoading || !data) return <Loading/>
+    if(notifs.error) return <h1>oh no...error</h1>
+
+    if(!notifs.data) {
         <h1>No notifications yet.</h1>
     }
 
     return (
         <div style={{padding: "1rem"}}>
-           <NotificationsList read={data.true} unread={data.false}/>
+           <NotificationsList read={data?.true} unread={data?.false}/>
         </div>
     );
 };

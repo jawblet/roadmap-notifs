@@ -10,9 +10,9 @@ const Dashboard = ({ data }) => {
     const { user } = useContext(UserContext);
 
     if(!user) return <Loading/>
-    
-    return (
-            <table className={styles.dashboard}>
+
+    return (<>
+            <div className={styles.dashboard}>
                 <Flex className={styles.dashboard_header} width="100%">
                     <h5 className={styles.dashboard_th}>Product domain</h5>
                     <h5 className={styles.dashboard_th}>Feature</h5>
@@ -36,7 +36,8 @@ const Dashboard = ({ data }) => {
                                 </div>
                             </Flex>) 
                     })}
-             </table>
+             </div>
+             </>
     );
 };
 

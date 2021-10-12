@@ -25,7 +25,7 @@ export default async function prepareNotifs(oldFeature, newFeature){
             const notif = await Notification.create({
                  user, 
                  feature: _id,
-                 content:`The feature ${oldFeature.name} changed its estimated delivery date to ${newFeature.date}`,
+                 content:`The feature ${newFeature.name} changed its estimated delivery date to ${newFeature.date}`,
                  read: false
              })
             return notif;
@@ -37,7 +37,7 @@ export default async function prepareNotifs(oldFeature, newFeature){
             to: user.email, // Change to your recipient
             from: 'julia.bell@piano.io', // Change to your verified sender
             subject: `A feature you're watching changed its delivery date`,
-            text: `The feature ${oldFeature.name} changed its estimated delivery date to ${newFeature.date}`
+            text: `The feature ${newFeature.name} changed its estimated delivery date to ${newFeature.date}`
         }
 
         const email = await sendEmail(msg);

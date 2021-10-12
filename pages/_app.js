@@ -6,6 +6,8 @@ import Header from "../components/Header";
 import '../styles/globals.scss'
 import { checkUser } from '../utils/api';
 import Loading from "@components/Loading";
+import { ReactQueryDevtools } from 'react-query/devtools'
+import Landing from '@components/Landing';
 
 /* Global auth wrapper */
 const Auth = ({ children }) => {
@@ -22,14 +24,7 @@ const Auth = ({ children }) => {
   });
   
   if(status==="loading") return <Loading/>
-
-  if(status==="unauthenticated") return (
-  <div>
-  <button onClick={() => signIn("google", { callbackUrl: process.env.NEXTAUTH_URL })}>
-    Sign in with google
-  </button>
-  <h1>Unauthenticated user</h1> 
-</div>)
+  if(status==="unauthenticated") return <Landing/>
 
   return (
   <UserContext.Provider value={{user, setUser}}>
@@ -63,6 +58,9 @@ function MyApp({
 export default MyApp;
 
 /*
+
+        <ReactQueryDevtools initialIsOpen={false} />
+
  return 
 
    useEffect(() => {

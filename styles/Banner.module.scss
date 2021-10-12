@@ -1,0 +1,15 @@
+.banner {
+    height: 3rem;
+    width: 90%;
+    position: fixed;
+    left: 50%;
+    top: 1rem;
+    display: inline-block;
+    transform: translateX(-50%);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    background-color: $blue;
+    &__block {
+        height: 1.5rem;
+    }
+}

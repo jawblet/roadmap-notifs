@@ -2,7 +2,7 @@ import React from 'react';
 import Flex from "@utils/Flex";
 import styles from "@styles/Dashboard.module.scss";
 import useSubscriptions from '@hooks/useSubscriptions';
-
+import { VscLinkExternal } from "react-icons/vsc";
 
 const Feature = ({ feature, userFeatures }) => {
     const date = new Date(feature.date).toLocaleDateString();
@@ -10,11 +10,14 @@ const Feature = ({ feature, userFeatures }) => {
 
     return(
         <Flex className={styles.dashboard_feature}>
+            <Flex middle gap={0.5} className={styles.dashboard_data}>
+                <p>{feature.name}</p>
+                <a href={`${process.env.NEXT_PUBLIC_PROD_DB_URL}${feature.id}`} target="_blank">
+                    <VscLinkExternal className="icon"/>
+                </a>
+            </Flex>
             <div className={styles.dashboard_data}>
-                {feature.name}
-            </div>
-            <div className={styles.dashboard_data}>
-                {date}
+                <p>{date}</p>
             </div>
             <input className={styles.dashboard_data} 
                     type="checkbox" style={{width:"10%"}}

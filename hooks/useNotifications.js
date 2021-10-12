@@ -12,8 +12,7 @@ export default function useNotifications() {
 
     const updateNotifs = useMutation(() => { return axios.put(`/api/notifs/${user._id}`)}, {
         onSuccess: () => { 
-            console.log("Invalidate!");
-            queryClient.invalidateQueries('getNotifs') 
+            queryClient.invalidateQueries('getNotifs');
         }
     });
 

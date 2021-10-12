@@ -1,6 +1,7 @@
 
 import dbConnect from '@utils/dbConnect';
 import Notification from "@models/Notification";
+import Feature from "@models/Feature";
 import groupBy from "lodash/groupBy";
 
 dbConnect();
@@ -11,7 +12,7 @@ export default async function handler(req, res) {
     // get user's notifs 
     if(req.method === "GET") {
         try {
-            const notifs = await Notification.find({ user }).populate("feature");
+            const notifs = await Notification.find({ user }).populate("feature").sort({ createdAt: -1 });
             const groups = groupBy(notifs, "read");
             res.status(200).json(groups);
         } catch(err) {
