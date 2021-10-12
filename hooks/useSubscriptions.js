@@ -16,7 +16,6 @@ export default function useSubscriptions() {
            // console.log(payload);
             queryClient.setQueryData('getUser', {...user, payload });
             const previousValue = queryClient.getQueryData('getUser');
-            // sendEmail.mutate({ email: user.email });
             return previousValue; // return in case of failure 
         },
         onError: (err, payload, previousValue) => {
@@ -27,7 +26,6 @@ export default function useSubscriptions() {
     
     const editSubscriptions = (checked, feature, userFeatures) => {
             let watchedArray = userFeatures || []; 
-            console.log(checked, feature, userFeatures);
             if(checked) {
                 watchedArray.push(feature);
                 sendNotif.mutate({user: user._id,

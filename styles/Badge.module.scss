@@ -1,0 +1,22 @@
+.badge {
+    font-size: 1.1rem;
+    background-color: orange;
+    border-radius: 1px;
+    color: --off-white;
+    height: 1.5rem;
+    min-width: 1.5rem;
+    cursor: pointer;
+    position: relative; 
+    &_none {
+      background-color: $body-lightest; 
+    }
+}
+
+.badge_number {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      letter-spacing: 0;
+      font-weight: 600;
+}

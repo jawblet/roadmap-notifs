@@ -7,8 +7,8 @@ export default async function handler(req, res) {
     const msg = {
         to: req.body.email, // Change to your recipient
         from: 'julia.bell@piano.io', // Change to your verified sender
-        subject: 'Sending with SendGrid is Fun',
-        text: 'and easy to do anywhere, even with Node.js',
+        subject: `A feature you're watching changed its expected delivery date`,
+        text: 'The new date is ',
         html: '<strong>and easy to do anywhere, even with Node.js</strong>',
     }
     sgMail

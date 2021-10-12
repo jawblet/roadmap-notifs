@@ -1,0 +1,9 @@
+.notif {
+    padding: 1rem; 
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+    &_unread {
+        background-color: #CACED6;
+        font-weight: bold;
+    }
+}

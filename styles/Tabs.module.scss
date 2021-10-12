@@ -8,4 +8,10 @@
         text-decoration: underline;
         font-weight: 600;
     }
+    &:not(:last-of-type) {
+       padding-right: 3rem;
+    }
+    &:last-of-type {
+        padding-right: 0.5rem;
+    }
 }

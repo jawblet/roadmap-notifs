@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'; 
 import { getSession } from "next-auth/react";
 
 export const checkUser = async () => {
@@ -12,6 +12,19 @@ export const getFeatures = async () => {
     const res = await axios.get('/api/features', {params: {hasDate: true}});
     return res.data;
 }
+
+export const getNotifs = async (user) => {
+   const res = await axios.get(`/api/notifs/${user}`);
+   return res.data;
+}
+
+export const updateNotifs = async (user) => {
+    const res = await axios.put(`/api/notifs/${user}`);
+    return res.data;
+ }
+
+
+
 
 export const getInitFeatures = async () => {
     await axios.get('/api/features', {params: {hasDate: true}})

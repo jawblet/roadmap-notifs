@@ -36,7 +36,6 @@ blockquote {
 }
 
 body {
- // font-family: 'Graphik', sans-serif;
   font-size: 0.9rem;
   line-height: normal;
 }
@@ -82,7 +81,7 @@ h4, button, li, th, .listtext { // lists, menus, buttons
 h5, figcaption, label, td, .subtitle { // prompts, nudges, captions
  // font-family: 'Graphik', sans-serif;
   font-size: 0.8rem;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 h6 { //metadata 
@@ -90,7 +89,8 @@ h6 { //metadata
   letter-spacing: 1px;
 }
 
-.public-DraftEditor-content, p {
+p {
+  font-weight: 300;
   line-height: 180%;
 }
 
@@ -156,21 +156,11 @@ hr {
     margin: 0 auto; //center
 }
  
-ul {
-  list-style: '- ';
-}
-
-ul > li > ul {
-  list-style: circle;
-}
-
-ol > li > ol {
-  list-style: lower-alpha;
-}
 
 .inlinetag {
   border-radius: 3px;
-  padding: 0 1px;
+  padding: 3px;
+  flex-shrink: 1;
 }
 
 .icon {
@@ -180,8 +170,16 @@ ol > li > ol {
 
 .container {
   min-height: 100vh;
-  padding: 0 0.5rem;
+  padding:1.5rem;
   display: flex;
   flex-direction: column;
   height: 100vh;
+}
+
+.light {
+  color: $body-light;
+}
+
+.lightest {
+  color: $body-lightest;
 }

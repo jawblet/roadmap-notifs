@@ -7,16 +7,17 @@ import Loading from '../components/Loading';
 import Dashboard from '../components/dashboard/Dashboard';
 import Notifications from '../components/dashboard/Notifications';
 import Tabs from '../components/Tabs';
-import axios from "axios";
+import useNotifications from '@hooks/useNotifications';
 
 export default function Home(pageProps) {
-  console.log(pageProps);
-
+  const { notifs } = useNotifications();
+  console.log(notifs);
   const {isLoading, error, data } = useQuery('getFeatures', () => getFeatures());
 
   const [view, setView] = useState("upcoming");
 
   if(isLoading || error) return <Loading/>
+
 
   return (
     <div className={styles.container}>
@@ -26,21 +27,18 @@ export default function Home(pageProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h2>Piano roadmap notifier</h2>
-       <Tabs view={view} setView={setView}/>
+       <Tabs view={view} setView={setView} notifs={notifs}/>
        <hr/>
         {(function() {
         switch (view) {
           case 'upcoming':
             return  <Dashboard data={data.features}/>;
-          case 'other':
-            return  <Dashboard data={data.features}/>;
           case 'notifications':
-            return  <Notifications/>;
+            return  <Notifications notifs={notifs}/>;
           default:
             return null;
         }
       })()}
-       
     </div>
   )
 }
@@ -54,4 +52,7 @@ export async function getStaticProps(context) {
     props: { data }, // will be passed to the page component as props
   }
 }
+
+  case 'other':
+            return  <Dashboard data={data.features}/>;
 */

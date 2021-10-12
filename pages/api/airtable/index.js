@@ -1,4 +1,5 @@
 const airtable = require("airtable");
+import prepareNotifs from "@utils/prepareNotifs";
 import Feature from "../../../models/Feature";
 import dbConnect from "../../../utils/dbConnect";
 
@@ -14,6 +15,7 @@ export default async function handler(req, res) {
             const base = airtable.base(process.env.AIRTABLE_BASE_ID);
             const data = [];
             let features;
+            let notifs;
             
             await base('Product DB').select({
                 view: "Full view by Product domain",
@@ -68,16 +70,15 @@ export default async function handler(req, res) {
 
                             // check if dates are the same
                             if(oldDate !== newDate) {
-                                console.log(existingItem.date, newDate);
+                              notifs = await prepareNotifs(existingItem, el);
                             }   
                         }
                                      
-
                     return el;
                 }))
             }
 
-            return res.status(201).json({ features })
+            return res.status(201).json({ notifs, features })
         } catch(err) {
             console.log("error")
             res.status(400).json(err)
@@ -96,4 +97,4 @@ export default async function handler(req, res) {
     
   }
 
-  //                    if((existingItem.date !== el.date) || (existingItem.phase !== el.phase)) {
+  // if((existingItem.date !== el.date) || (existingItem.phase !== el.phase)) {

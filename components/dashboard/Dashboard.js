@@ -12,33 +12,31 @@ const Dashboard = ({ data }) => {
     if(!user) return <Loading/>
     
     return (
-        <div>
-            <Flex between className={styles.tabs} width="100%">
-                <h5 style={{width:"25%"}}>product domain</h5>
-                <h5 style={{width:"50%"}}>name</h5>
-                <h5 style={{width:"15%"}}>est. delivery date</h5>
-                <h5 style={{width:"10%"}}>watch?</h5>
-            </Flex>
-            {Object.entries(data).map(([key, vals], i) => {
-                return(
-                <Flex key={i} className={styles.domain} gap={3}>
-                    <h4 style={{width:"25%", background:colors[key]}} className="inlinetag">
-                        {key}
-                    </h4>
-                    <div style={{width:"100%"}}>
-                        {vals.map(el => {
-                            return (
-                                <Feature key={el._id} 
-                                        feature={el} 
-                                        userFeatures={user.features}
-                                        />
-                                )}
-                            )}
-                    </div>
+            <table className={styles.dashboard}>
+                <Flex className={styles.dashboard_header} width="100%">
+                    <h5 className={styles.dashboard_th}>Product domain</h5>
+                    <h5 className={styles.dashboard_th}>Feature</h5>
+                    <h5 className={styles.dashboard_th}>Est. delivery date</h5>
+                    <h5 className={styles.dashboard_th}>Watch?</h5>
                 </Flex>
-               ) 
-             })}
-        </div>
+                    {Object.entries(data).map(([key, vals], i) => {
+                        return(
+                            <Flex className={styles.dashboard_row} key={i} top>
+                                <div style={{fontWeight:"bold", background:colors[key]}} 
+                                    className={`${styles.dashboard_td} inlinetag`}>
+                                    {key}
+                                </div>
+                                <div className={styles.dashboard_td}>
+                                    {vals.map(el => {
+                                        return (<Feature key={el._id} 
+                                                    feature={el} 
+                                                    userFeatures={user.features}
+                                                    />)
+                                        })}
+                                </div>
+                            </Flex>) 
+                    })}
+             </table>
     );
 };
 
