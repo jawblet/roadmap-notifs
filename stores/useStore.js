@@ -1,7 +1,14 @@
 import create from 'zustand';
 
-const store = (set => ({
+const featureStore = ((set, get) => ({
+    showFeature: null
+}));
+
+
+const notifStore = (set => ({
     notif: null, 
 }));
 
-export const useNotifStore = create(store);
+export const useNotifStore = create(notifStore);
+export const useFeatureStore = create(featureStore);
+

@@ -5,7 +5,6 @@ import User from "@models/User";
 dbConnect();
 
 export default async function handler(req, res) {
-    console.log(req.query.id, req.body.features);
 
     try {
         const user = await User.findOneAndUpdate(req.query.id, {features: req.body.features});

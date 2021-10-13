@@ -16,13 +16,13 @@ const Dashboard = ({ data }) => {
                 <Flex className={styles.dashboard_header} width="100%">
                     <h5 className={styles.dashboard_th}>Product domain</h5>
                     <h5 className={styles.dashboard_th}>Feature</h5>
-                    <h5 className={styles.dashboard_th}>Est. delivery date</h5>
+                    <h5 className={styles.dashboard_th}>ETA</h5>
                     <h5 className={styles.dashboard_th}>Watch?</h5>
                 </Flex>
                     {Object.entries(data).map(([key, vals], i) => {
                         return(
                             <Flex className={styles.dashboard_row} key={i} top>
-                                <div style={{fontWeight:"bold", background:colors[key]}} 
+                                <div style={{fontWeight:"bold", textAlign:"center", background:colors[key]}} 
                                     className={`${styles.dashboard_td} inlinetag`}>
                                     {key}
                                 </div>

@@ -1,0 +1,24 @@
+.modal {
+    width: 40rem;
+    border-radius: $border-large;
+    background-color: $off-white;
+    display: flex;
+    direction: column;
+    justify-content: center;
+    padding: 1.5rem 3rem; 
+    z-index: 4;
+    &_X {
+        position: relative;
+        right: 0;
+        align-self: flex-end;
+    }
+    &_background { 
+        left: 0;
+        top: 0;
+        position: fixed;  
+        height: 100vh;
+        width: 100vw;
+        background-color: rgba(255, 255, 255, 0.5); 
+        z-index: 3;
+    }
+}
