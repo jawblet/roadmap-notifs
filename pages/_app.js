@@ -22,6 +22,8 @@ const Auth = ({ children }) => {
       setUser(res);
     }
   });
+
+  console.log(status);
   
   if(status==="loading") return <Loading/>
   if(status==="unauthenticated") return <Landing/>

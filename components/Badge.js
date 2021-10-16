@@ -6,7 +6,7 @@ const Badge = (props, ref) => (
             onClick={props.handleClick} 
             ref={ref}>
                 <h4 className={styles.badge_number}> 
-                    {value}
+                    {props.value}
                 </h4>            
         </div> );
 

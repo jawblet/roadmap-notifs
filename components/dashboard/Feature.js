@@ -1,32 +1,22 @@
-import React from 'react';
+import { Modal } from "../Modal";
 import Flex from "@utils/Flex";
 import styles from "@styles/Dashboard.module.scss";
 import useSubscriptions from '@hooks/useSubscriptions';
-import { VscLinkExternal } from "react-icons/vsc";
 import { useFeatureStore } from 'stores/useStore';
-
-const LinkAway = ( { id }) => {
-return(
-    <a href={`${process.env.NEXT_PUBLIC_PROD_DB_URL}${id}`} 
-        rel="noreferrer"
-        target="_blank">
-            <VscLinkExternal className="icon"/>
-    </a>
-)
-}
+import LinkToAirtable from "./LinkToAirtable";
 
 const Feature = ({ feature, userFeatures }) => {
     const date = new Date(feature.date).toLocaleDateString();
     const { editSubscriptions } = useSubscriptions();
     const { showFeature } = useFeatureStore();
 
-    return(
+    return( <>
         <Flex className={styles.dashboard_feature}>
             <Flex middle gap={0.5} className={styles.dashboard_data}>
-                <p onClick={() => useFeatureStore.setState({feature: feature.id})}>
+                <p onClick={() => useFeatureStore.setState({showFeature: feature})}>
                     {feature.name}
                 </p>
-                <LinkAway id={feature.id}/>
+                <LinkToAirtable id={feature.id}/>
             </Flex>
             <div className={styles.dashboard_data}>
                 <p>{date}</p>
@@ -37,7 +27,9 @@ const Feature = ({ feature, userFeatures }) => {
                     onChange={(e) => 
                         { editSubscriptions(e.target.checked, feature, userFeatures)}
                         }/>
+                {showFeature && <Modal/>}
         </Flex>
+        </>
     );
 };
 

@@ -4,8 +4,6 @@ import { useRouter } from 'next/router';
 import styles from "@styles/Tabs.module.scss";
 import Badge from "@components/Badge";
 import { UserContext } from "@utils/UserContext";
-import { useQuery } from 'react-query'; 
-import { getNotifs } from "@utils/api";
 
 const Tabs = ({ view, setView, notifs }) => {
     const [value, setValue] = useState(null);
@@ -39,9 +37,11 @@ const Tabs = ({ view, setView, notifs }) => {
                     {el.label}
             </h3>)
             })}
-            {value && <Badge value={value} ref={notifRef} 
+            {(value !== null) && 
+                <Badge value={value} ref={notifRef} 
                 handleClick={() => router.push('#notifications')
-            }/>}
+                }/>
+            }
     </Flex>
     );
 };

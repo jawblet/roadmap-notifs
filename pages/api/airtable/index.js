@@ -16,6 +16,7 @@ export default async function handler(req, res) {
             const data = [];
             let features;
             let notifs;
+            let deletedFts;
             
             await base('Product DB').select({
                 view: "Full view by Product domain",
@@ -46,14 +47,28 @@ export default async function handler(req, res) {
             const dbFeatures = await Feature.find({});
 
             if(!dbFeatures) {
+                // if no existing features, add all 
                features = await Feature.create(newFeatures);
             } else {
+            
+            // REMOVE DELETED FEATURES
+                // check if there are any obsolete ids in the db
+                const oldFeatures = dbFeatures.map(el => {
+                   const ftExists = newFeatures.some(curr => curr.id === el.id);
+                   if(!ftExists) return el._id
+                }).filter(el => el);
+
+                console.log(oldFeatures);
+                if(oldFeatures) {
+                   deletedFts = await Feature.deleteMany({_id: oldFeatures});
+                }
+
+                // ADD OR UPDATE CURRENT FEATURES
                 features = await Promise.all(newFeatures.map(async(el) => {
                     // find if item exists  
                     const existingItem = dbFeatures.find(ft => ft.id === el.id);
 
-                    // update any changed properties in db
-                    // if item does not exist, create it in db
+                    // update any changed properties in db or create 
                         await Feature.updateOne(
                             { id: el.id }, 
                             el, 
@@ -70,7 +85,8 @@ export default async function handler(req, res) {
 
                             // check if dates are the same
                             if(oldDate !== newDate) {
-                              notifs = await prepareNotifs(existingItem, el);
+                                // if date changed, send notifs to watchers
+                                notifs = await prepareNotifs(existingItem, el);
                             }   
                         }
                                      
@@ -78,7 +94,7 @@ export default async function handler(req, res) {
                 }))
             }
 
-            return res.status(201).json({ notifs, features })
+            return res.status(201).json({ deletedFts, notifs, features })
         } catch(err) {
             console.log("error")
             res.status(400).json(err)

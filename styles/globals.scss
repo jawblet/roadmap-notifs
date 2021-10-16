@@ -40,12 +40,8 @@ body {
   line-height: normal;
 }
 
-.headline {
-  font-size: 3.3rem;
-}
-
 /* text styles */
-h1 { // group heading
+h1 { // main heading
   font-size: 2rem;
   font-weight: 200;
   letter-spacing: 0.5px;
@@ -53,13 +49,13 @@ h1 { // group heading
 
 }
 
-h2, .title { //room heading
+h2 { //modal heading
   // font-family: 'Apple-Garamond', serif;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 300;
 }
 
-h3 { // post heading
+h3 {
   // font-family: 'Graphik', sans-serif; 
   font-size: 0.8rem;
   letter-spacing: 1.5px;

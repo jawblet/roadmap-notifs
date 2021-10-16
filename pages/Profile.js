@@ -4,7 +4,7 @@ import Loading from "@components/Loading";
 import Feature from '../components/dashboard/Feature';
 import useSubscriptions from '../hooks/useSubscriptions';
 
-const Watching = (props) => {
+const Profile = (props) => {
     const { user } = useContext(UserContext);
     const { editWatched } = useSubscriptions();
 
@@ -21,7 +21,7 @@ const Watching = (props) => {
                         )
                     })}
                 <button onClick={() => editWatched.mutate({features: []})}>
-                    Stop watching all features
+                    Stop Profile all features
                 </button>
             </div> 
             }
@@ -29,4 +29,4 @@ const Watching = (props) => {
     );
 };
 
-export default Watching;
+export default Profile;
