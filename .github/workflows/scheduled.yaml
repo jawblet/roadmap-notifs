@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: hourly-cron-job
-        run: curl -X POST "https://piano-roadmap.vercel.app/api/airtable/"
+        run: curl -L -X POST https://piano-roadmap.vercel.app/api/airtable/
