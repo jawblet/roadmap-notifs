@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import Head from 'next/head'
 import styles from '@styles/Home.module.scss'
 import { useQuery } from 'react-query';
@@ -8,8 +8,6 @@ import Dashboard from '@components/dashboard/Dashboard';
 import Notifications from '@components/dashboard/Notifications';
 import Tabs from '@components/Tabs';
 import useNotifications from '@hooks/useNotifications';
-import { UserContext } from '@utils/UserContext';
-import { getNotifs } from "@utils/api";
 import Banner from "@components/Banner";
 import { useNotifStore } from 'stores/useStore';
 
@@ -20,7 +18,6 @@ export default function Home(pageProps) {
   const { notif } = useNotifStore();
 
   const {isLoading, error, data } = useQuery('getFeatures', () => getFeatures());
-
   const [view, setView] = useState("upcoming");
 
   if(isLoading || error) return <Loading/>

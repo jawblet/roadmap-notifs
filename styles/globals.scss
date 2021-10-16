@@ -24,7 +24,7 @@ html {
 
 //highlight 
 ::selection {
-    background-color: $accent;
+    background-color: $blue;
   }
 
 blockquote {
@@ -176,4 +176,14 @@ hr {
 
 .lightest {
   color: $body-lightest;
+}
+
+.blue {
+  background-color: $blue;
+}
+
+.button {
+  padding: 1rem; 
+  border-radius: 1rem;
+  margin: 1rem 0;
 }

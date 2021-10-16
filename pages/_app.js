@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { UserContext } from "@utils/UserContext";
-import { SessionProvider, useSession, signIn } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import { QueryClientProvider, QueryClient, useQuery } from "react-query";
 import Header from "../components/Header";  
-import '../styles/globals.scss'
 import { checkUser } from '../utils/api';
 import Loading from "@components/Loading";
 import { ReactQueryDevtools } from 'react-query/devtools'
 import Landing from '@components/Landing';
+import '../styles/globals.scss'
 
 /* Global auth wrapper */
 const Auth = ({ children }) => {
@@ -22,8 +22,6 @@ const Auth = ({ children }) => {
       setUser(res);
     }
   });
-
-  console.log(status);
   
   if(status==="loading") return <Loading/>
   if(status==="unauthenticated") return <Landing/>
