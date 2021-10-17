@@ -1,7 +1,7 @@
 const airtable = require("airtable");
 import prepareNotifs from "@utils/prepareNotifs";
-import Feature from "../../../models/Feature";
-import dbConnect from "../../../utils/dbConnect";
+import Feature from "@models/Feature";
+import dbConnect from "@utils/dbConnect";
 
 dbConnect();
 
@@ -28,9 +28,10 @@ export default async function handler(req, res) {
                 fetchNextPage();
             });
     
-            // get latest version of AT 
+            // GET LATEST VERSION OF AT 
             const newFeatures = data.map(el => {
                 const { id, fields } = el;
+
                 return {
                     id: id,
                     name: fields["Feature"],
@@ -43,47 +44,58 @@ export default async function handler(req, res) {
                 }
             });
 
-            // get existing version of AT 
+            // GET STORED VERSION OF AT 
             const dbFeatures = await Feature.find({});
 
+            // IF NO EXISTING FTS, ADD
             if(!dbFeatures) {
-                // if no existing features, add all 
                features = await Feature.create(newFeatures);
             } else {
             
             // REMOVE DELETED FEATURES
-                // check if there are any obsolete ids in the db
+                // check if there are any obsolete feature ids in the db
                 const oldFeatures = dbFeatures.map(el => {
                    const ftExists = newFeatures.some(curr => curr.id === el.id);
                    if(!ftExists) return el._id
                 }).filter(el => el);
 
-                console.log(oldFeatures);
                 if(oldFeatures) {
                    deletedFts = await Feature.deleteMany({_id: oldFeatures});
                 }
 
-                // ADD OR UPDATE CURRENT FEATURES
+            // ADD OR UPDATE CURRENT FEATURES
                 features = await Promise.all(newFeatures.map(async(el) => {
-                    // find if item exists  
-                    const existingItem = dbFeatures.find(ft => ft.id === el.id);
 
-                    // update any changed properties in db or create 
-                        await Feature.updateOne(
-                            { id: el.id }, 
-                            el, 
-                            {
-                                upsert: true,
-                            })
+                 // find if feature exists in db
+                const existingItem = dbFeatures.find(ft => ft.id === el.id);
 
-                        // check items have dates 
-                        if(existingItem?.date && el.date) {
+                // update any changed properties in db or create 
+                await Feature.updateOne(
+                    { id: el.id }, 
+                    el, 
+                    {
+                        upsert: true,
+                    })
+                    
+                // check if date is today 
+                    if(el.date) {
+                        const today = new Date().toLocaleDateString();
+                        const date = new Date(el.date).toLocaleDateString();
+                        
+                        // compare release date to today 
+                        if(today === date) {
+                            console.log("It's release day");
+                        }
+                    }
 
+
+                // check if date changed 
+                    if(existingItem?.date && el.date) {
                             // convert dates to same format 
                             const oldDate = new Date(existingItem.date).toISOString();
                             const newDate = new Date(el.date).toISOString();
 
-                            // check if dates are the same
+                            // compare dates
                             if(oldDate !== newDate) {
                                 // if date changed, send notifs to watchers
                                 notifs = await prepareNotifs(existingItem, el);
@@ -108,7 +120,6 @@ export default async function handler(req, res) {
         } catch(err) {
             res.status(400).json("error")
         }
-        
     }
     
   }

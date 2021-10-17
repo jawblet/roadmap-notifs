@@ -6,26 +6,28 @@ import useSubscriptions from '@hooks/useSubscriptions';
 import Flex from "@utils/Flex";
 import { useNotifStore } from 'stores/useStore';
 import Banner from '@components/Banner';
+import styles from "@styles/Dashboard.module.scss";
 
-const Profile = (props) => {
+const profile = (props) => {
     const { user } = useContext(UserContext);
     const { editWatched } = useSubscriptions();
     const { notif } = useNotifStore();
 
-
     if(!user) return <Loading/>
-    console.log(user);
+
     return ( <>
         {notif && <Banner/>}
-        <Flex column gap={1}>
+        <Flex column gap={1.5} className={styles.dashboard}>
             <h2>{user.name}</h2>
             {!user.features.length 
             ? <h4>No watched features.</h4>
             : <div> 
-                <h3>My watched features:</h3>
+                <h3 style={{paddingBottom:"1rem", fontWeight:"bold"}}>
+                    My watched features
+                </h3>
                 {user.features.map(el => {
                     return(
-                        <Feature key={el._id} feature={el}/>
+                        <Feature key={el._id} feature={el} userFeatures={user.features}/>
                         )
                     })}
                 <button onClick={() => editWatched.mutate({features: [], removed: true})} className="button blue">
@@ -38,4 +40,4 @@ const Profile = (props) => {
     );
 };
 
-export default Profile;
+export default profile;
