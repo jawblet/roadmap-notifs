@@ -14,7 +14,6 @@ import { useNotifStore } from 'stores/useStore';
 
 export default function Home(pageProps) {
   const { notifs } = useNotifications();
-
   const { notif } = useNotifStore();
 
   const {isLoading, error, data } = useQuery('getFeatures', () => getFeatures());

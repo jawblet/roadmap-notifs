@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { UserContext } from "@utils/UserContext";
 import { SessionProvider, useSession } from "next-auth/react";
 import { QueryClientProvider, QueryClient, useQuery } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import Header from "../components/Header";  
 import { checkUser } from '../utils/api';
 import Loading from "@components/Loading";
@@ -52,6 +53,7 @@ function MyApp({
           </Auth>
         </div>
         </SessionProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   )
 }
@@ -60,7 +62,6 @@ export default MyApp;
 
 /*
 
-        <ReactQueryDevtools initialIsOpen={false} />
 
  return 
 

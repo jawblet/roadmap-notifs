@@ -10,17 +10,14 @@ export default function useSubscriptions() {
     const queryClient = useQueryClient();
    
     const editWatched = useMutation(payload => { return axios.put(`/api/users/${user._id}`, {features: payload.features}) }, {
-        onMutuate: (res, payload) => {  
+        onSuccess: (res, payload) => {  
             useNotifStore.setState({notif: {text: `Feature successfully ${payload.added ? "added to" : "removed from" } watchlist.`, type: "success"}});
-            queryClient.setQueryData('getUser', {...user, features: payload.features });
-            const previousValue = queryClient.getQueryData('getUser');
-            return previousValue;
+            queryClient.invalidateQueries('getUser');
         },
         onError: (err, payload, previousValue) => {
             useNotifStore.setState({notif: {text: "Feature failed to add to watchlist.", type: "failure"}});
             queryClient.setQueryData('getUser', previousValue)
-        },
-        onSettled: () => queryClient.invalidateQueries('getUser')
+        }
     });
     
     const editSubscriptions = (checked, feature, userFeatures) => {
