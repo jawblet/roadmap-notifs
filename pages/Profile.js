@@ -11,10 +11,14 @@ import styles from "@styles/Dashboard.module.scss";
 const ProfilePage = (props) => {
     const { user } = useContext(UserContext);
     const { editWatched } = useSubscriptions();
+    const { notif } = useNotifStore();
 
     if(!user) return <Loading/>
 
-    return ( <>
+    return ( 
+        <>
+        {notif && <Banner/>}
+        <Flex column gap={1.5} className={styles.dashboard}>
             <h2>{user.name}</h2>
             {!user.features.length 
             ? <h4>No watched features.</h4>
@@ -30,22 +34,16 @@ const ProfilePage = (props) => {
                 <button onClick={() => editWatched.mutate({features: [], removed: true})} className="button blue">
                     Stop watching all features
                 </button>
-            </div> 
-            }
+            </div>}
+        </Flex>
         </>
     );
 };
 
 const profile = () => {
-    const { notif } = useNotifStore();
 
     return (
-    <>
-        {notif && <Banner/>}
-        <Flex column gap={1.5} className={styles.dashboard}>
-            <ProfilePage/>
-        </Flex>
-    </>
+        <ProfilePage/>
     )
 }
 
