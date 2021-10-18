@@ -33,7 +33,6 @@ export const ModalComponent = (props) => {
                     <h4>Status: {showFeature.phase}</h4>
                     <h4 className>Dev team: {showFeature.dev_team}</h4>
                 </Flex>
-              
                 <Flex gap={1.5}>
                 </Flex>
                 <p>
@@ -42,6 +41,9 @@ export const ModalComponent = (props) => {
         </Flex>
     </div>
     )};
+
+// <LinkToAirtable id={showFeature.id}/>
+
 
 export const Modal = (props) => {
     useEffect(() => {

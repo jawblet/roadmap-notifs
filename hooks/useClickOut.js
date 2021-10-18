@@ -5,7 +5,7 @@ export default function useClickOut() {
     const nodeRef = useRef(null); 
 
     const handleClickOutside = event => {
-        console.log(nodeRef.current);
+        console.log(event.target);
       //if modal is open and click is outside modal, close it 
         if(nodeRef.current && !nodeRef.current.contains(event.target)) {
           return useFeatureStore.setState({showFeature: null});

@@ -96,14 +96,9 @@ code, pre {
   letter-spacing: 0.5px;
 }
 
-a { 
-  text-decoration: none;
-  color: $body-light;
-  cursor: pointer;
-  &:hover {
-    font-style: italic;
-  }
-} 
+a {
+  color: $blue2;
+}
 
 .link {
   cursor: pointer;
