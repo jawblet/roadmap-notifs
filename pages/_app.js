@@ -5,13 +5,13 @@ import { QueryClientProvider, QueryClient, useQuery } from "react-query";
 import Header from "../components/Header";  
 import { checkUser } from '../utils/api';
 import Loading from "@components/Loading";
-import { ReactQueryDevtools } from 'react-query/devtools'
 import Landing from '@components/Landing';
 import '../styles/globals.scss'
 
 /* Global auth wrapper */
 const Auth = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [newUser, setNewUser] = useState(false);
 
   const { status } = useSession();
 
@@ -19,7 +19,8 @@ const Auth = ({ children }) => {
   useQuery('getUser', () => checkUser(), {
     enabled: !!(status==="authenticated"),
     onSuccess: (res) => {
-      setUser(res);
+      console.log(res);
+      setUser(res.user);
     }
   });
   
@@ -27,7 +28,7 @@ const Auth = ({ children }) => {
   if(status==="unauthenticated") return <Landing/>
 
   return (
-  <UserContext.Provider value={{user, setUser}}>
+  <UserContext.Provider value={{ user }}>
         {user && <>
         <Header/>
         {children} 

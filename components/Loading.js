@@ -1,9 +1,12 @@
+import Flex from "@utils/Flex";
+import styles from "@styles/Loading.module.scss";
 
 const Loading = () => {
     return (
-        <div style={{zIndex:100, width:"100vw", height:"100vh"}}>
-            Loading!
-        </div>
+        <Flex height="100vw" width="100vh" center middle>
+            <code className={styles.loading}>Loading</code>
+            <code className={styles.loading_cursor}>...</code>
+        </Flex>
     );
 };
 

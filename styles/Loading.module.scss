@@ -1,0 +1,17 @@
+@keyframes loadblink {
+    0%   {opacity: 0; }
+    25% {opacity: 0; }
+    50% {opacity: 1; }
+    75% {opacity: 0; }
+    100% {opacity: 0; }
+  
+  }
+
+.loading {
+    font-size: 1.5rem;
+}
+  
+.loading_cursor {
+    font-size: 1.5rem;
+    animation: loadblink 1s infinite;
+  }

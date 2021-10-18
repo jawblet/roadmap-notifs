@@ -14,15 +14,14 @@ export default async function handler(req, res){
     
     // if user exists, return user 
     if(user) {
-      res.status(200).json(user);
+      res.status(200).json({user});
     }
 
     // if not, create 
     if(!user) {
       let { email, name } = session.user;
       const newUser = await User.create({name, email});
-      console.log(newUser);
-      res.status(201).json(newUser);
+      res.status(201).json({user: newUser, newUser: true});
     }
 
   } catch(err) {
@@ -31,12 +30,3 @@ export default async function handler(req, res){
   }
 }
 
-/**
- * 
- *  const user = await User.findOne(
-            { email: email },
-            {$setOnInsert: { email, name } },
-            {upsert: true, 
-            new: true });
- * 
- */
