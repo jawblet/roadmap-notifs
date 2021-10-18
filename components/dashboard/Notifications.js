@@ -59,10 +59,11 @@ const Notifications = ({ notifs }) => {
 
     if(notifs.isLoading || !data) return <Loading/>
     if(notifs.error) return <h1>oh no...error</h1>
-
-    if(!notifs.data) {
-        <h1>No notifications yet.</h1>
-    }
+    console.log(notifs);
+    
+    if(Object.keys(notifs.data).length === 0) return (
+        <h3 style={{textAlign:"center", padding:"3rem"}}>No notifications yet.</h3>
+        )
 
     return (
         <div style={{padding: "1rem"}}>

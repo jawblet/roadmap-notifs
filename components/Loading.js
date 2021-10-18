@@ -3,9 +3,9 @@ import styles from "@styles/Loading.module.scss";
 
 const Loading = () => {
     return (
-        <Flex height="100vw" width="100vh" center middle>
-            <code className={styles.loading}>Loading</code>
-            <code className={styles.loading_cursor}>...</code>
+        <Flex height="100vw" width="100vh" center middle className={styles.loading}>
+            <code style={{fontSize:"1.5rem"}}>Loading</code>
+            <code style={{fontSize:"1.5rem"}} className={styles.loading_cursor}>...</code>
         </Flex>
     );
 };
