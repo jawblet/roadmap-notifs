@@ -8,7 +8,8 @@ import { useNotifStore } from 'stores/useStore';
 import Banner from '@components/Banner';
 import styles from "@styles/Dashboard.module.scss";
 
-const profile = (props) => {
+
+const Profile = (props) => {
     const { user } = useContext(UserContext);
     const { editWatched } = useSubscriptions();
     const { notif } = useNotifStore();
@@ -39,5 +40,9 @@ const profile = (props) => {
         </>
     );
 };
+
+const profile = () => {
+    return <Profile/>
+}
 
 export default profile;
