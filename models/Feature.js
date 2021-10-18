@@ -10,9 +10,6 @@ const featureSchema = new Schema({
     owner: String,
     product_domain: String,
     date: Date
-},
-{ 
-    timestamps: true 
 }
 );
 

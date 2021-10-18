@@ -1,34 +1,19 @@
 import User from "@models/User";
 import Notification from '@models/Notification';
-const sgMail = require('@sendgrid/mail');
+import sendEmail from "./sendEmail";
 
-async function sendEmail(msg) {
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-    try {
-        const email = await sgMail.send(msg);
-        return email;
-    } catch (error) {
-        console.error(error);
-  }
-}
-
-export default async function prepareNotifs(oldFeature, newFeature){
+export default async function releaseNotifs(users, oldFeature, newFeature){
     const { _id } = oldFeature; 
-
-    // find users who are watching the changed feature 
-    const users = await User.find({ features: _id });
 
     // Format the new date 
     const newDate = new Date(newFeature.date).toLocaleDateString();
-    const oldDate = new Date(oldFeature.date).toLocaleDateString();
     
     // SEND NOTIFS PER USER
     const notifications = await Promise.all(users.map(async (user) => {
             const notif = await Notification.create({
                  user, 
                  feature: _id,
-                 content:`The feature ${newFeature.name} changed its estimated delivery date to ${newDate} from ${oldDate}`,
+                 content:`The feature ${newFeature.name}'s release today is listed as today, ${newDate}`,
                  read: false
              })
             return notif;
@@ -39,17 +24,17 @@ export default async function prepareNotifs(oldFeature, newFeature){
         const msg = {
             to: user.email, // Change to your recipient
             from: 'julia.bell@piano.io', // Change to your verified sender
-            subject: `A feature you're watching changed its delivery date`,
+            subject: `A feature you're watching has a released scheduled today`,
             text: `The feature ${newFeature.name} changed its estimated delivery date to ${newFeature.date}`,
             html: `<div style={{padding:"3rem"}}>
                 <p>Hi ${user.name},</p>
                 <br/>
                 <p>
-                    The feature <b>${newFeature.name}</b> changed its estimated delivery date to <b>${newDate}</b> from <b>${oldDate}</b>.
+                    The feature <b>${newFeature.name}'s</b> release today is listed as today <b>${newDate}</b>.
                 </p>
                 <br/>
                 <p>
-                   This feature is owned by ${newFeature.owner}.
+                   This feature is owned by ${newFeature.owner}. It's a good idea to confirm the release was successful before communicating the release outside Piano.
                 </p>
                 <br/>
                 <p>Have a good day,</p>

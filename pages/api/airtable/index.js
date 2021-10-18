@@ -1,32 +1,21 @@
-const airtable = require("airtable");
-import prepareNotifs from "@utils/prepareNotifs";
 import Feature from "@models/Feature";
+import User from "@models/User";
 import dbConnect from "@utils/dbConnect";
+import checkNotifs from "@utils/checkNotifs";
+import queryAirtable from "@utils/queryAirtable";
 
 dbConnect();
 
 export default async function handler(req, res) {
     if(req.method === "GET") {
-        res.status(200).send("get!");
+        res.status(200).send("test GET");
     }
 
     if (req.method === "POST") {
         try {
-            const base = airtable.base(process.env.AIRTABLE_BASE_ID);
-            const data = [];
-            let features;
-            let notifs;
-            let deletedFts;
-            
-            await base('Product DB').select({
-                view: "Full view by Product domain",
-                filterByFormula: "NOT({Phase} = 'Backlog')"
-            }).eachPage(function page(records, fetchNextPage) {        
-                records.forEach(function(record) {
-                    data.push(record._rawJson);
-                });
-                fetchNextPage();
-            });
+            let features = {deleted: null, updated: null};
+
+            const data = await queryAirtable();
     
             // GET LATEST VERSION OF AT 
             const newFeatures = data.map(el => {
@@ -47,68 +36,53 @@ export default async function handler(req, res) {
             // GET STORED VERSION OF AT 
             const dbFeatures = await Feature.find({});
 
-            // IF NO EXISTING FTS, ADD
+            // IF NO EXISTING FTS, ADD. 
+            // ELSE, COMPARE VERSIONS.
             if(!dbFeatures) {
-               features = await Feature.create(newFeatures);
+                features.updated = await Feature.create(newFeatures);
+            
             } else {
             
-            // REMOVE DELETED FEATURES
-                // check if there are any obsolete feature ids in the db
+            // REMOVE OBSOLETE FEATURES
                 const oldFeatures = dbFeatures.map(el => {
                    const ftExists = newFeatures.some(curr => curr.id === el.id);
                    if(!ftExists) return el._id
                 }).filter(el => el);
 
                 if(oldFeatures) {
-                   deletedFts = await Feature.deleteMany({_id: oldFeatures});
+                    features.deleted = await Feature.deleteMany({_id: oldFeatures});
                 }
 
             // ADD OR UPDATE CURRENT FEATURES
-                features = await Promise.all(newFeatures.map(async(el) => {
+            features.updated = await Promise.all(newFeatures.map(async(el) => {
+                let notifs;
+                    // find if feature exists in db
+                    const existingItem = dbFeatures.find(ft => ft.id === el.id);
 
-                 // find if feature exists in db
-                const existingItem = dbFeatures.find(ft => ft.id === el.id);
+                    // update any changed properties in db or create 
+                   const ft = await Feature.updateOne(
+                        { id: el.id }, 
+                        el, 
+                        { upsert: true });
 
-                // update any changed properties in db or create 
-                await Feature.updateOne(
-                    { id: el.id }, 
-                    el, 
-                    {
-                        upsert: true,
-                    })
-                    
-                // check if date is today 
-                    if(el.date) {
-                        const today = new Date().toLocaleDateString();
-                        const date = new Date(el.date).toLocaleDateString();
-                        
-                        // compare release date to today 
-                        if(today === date) {
-                            console.log("It's release day");
-                        }
+                    // check if ft has users watching it 
+                    if(existingItem) {
+                        const subscribers = await User.find({ features: existingItem._id });
+                        if(subscribers) {
+                            notifs = await checkNotifs(subscribers, existingItem, el);
+                        }   
                     }
-
-
-                // check if date changed 
-                    if(existingItem?.date && el.date) {
-                            // convert dates to same format 
-                            const oldDate = new Date(existingItem.date).toISOString();
-                            const newDate = new Date(el.date).toISOString();
-
-                            // compare dates
-                            if(oldDate !== newDate) {
-                                // if date changed, send notifs to watchers
-                                notifs = await prepareNotifs(existingItem, el);
-                            }   
-                        }
-                                     
-                    return el;
+                                                    
+                    return {ft, notifs};
                 }))
+  
+                features.updated = features.updated.filter(el => el.ft.modifiedCount || el.ft.upsertedCount)
+
             }
 
-            return res.status(201).json({ deletedFts, notifs, features })
+            return res.status(201).json(features)
         } catch(err) {
-            console.log("error")
+            console.log(err)
             res.status(400).json(err)
         }
     }
@@ -116,9 +90,9 @@ export default async function handler(req, res) {
     if(req.method === "DELETE") {
         try {
             await Feature.deleteMany({});
-            res.status(204).json({});
+            res.status(204);
         } catch(err) {
-            res.status(400).json("error")
+            res.status(400).json(`Error deleting features: ${err}`);
         }
     }
     

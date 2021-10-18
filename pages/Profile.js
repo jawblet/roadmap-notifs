@@ -8,17 +8,13 @@ import { useNotifStore } from 'stores/useStore';
 import Banner from '@components/Banner';
 import styles from "@styles/Dashboard.module.scss";
 
-
-const Profile = (props) => {
+const ProfilePage = (props) => {
     const { user } = useContext(UserContext);
     const { editWatched } = useSubscriptions();
-    const { notif } = useNotifStore();
 
     if(!user) return <Loading/>
 
     return ( <>
-        {notif && <Banner/>}
-        <Flex column gap={1.5} className={styles.dashboard}>
             <h2>{user.name}</h2>
             {!user.features.length 
             ? <h4>No watched features.</h4>
@@ -36,13 +32,21 @@ const Profile = (props) => {
                 </button>
             </div> 
             }
-        </Flex>
         </>
     );
 };
 
 const profile = () => {
-    return <Profile/>
+    const { notif } = useNotifStore();
+
+    return (
+    <>
+        {notif && <Banner/>}
+        <Flex column gap={1.5} className={styles.dashboard}>
+            <ProfilePage/>
+        </Flex>
+    </>
+    )
 }
 
 export default profile;

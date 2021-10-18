@@ -1,4 +1,4 @@
-import { useEffect, forwardRef } from 'react';
+import { useEffect } from 'react';
 import Flex from '@utils/Flex';
 import { VscClose } from 'react-icons/vsc'; 
 import styles from "@styles/Modal.module.scss";
